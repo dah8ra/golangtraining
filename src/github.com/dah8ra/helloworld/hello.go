@@ -1,7 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/dah8ra/calc"
+)
 
 func main() {
-    fmt.Printf("hello, world\n")
+    fmt.Printf("Add(%v,%v) = %v\n",1,2, calc.Add(1,2))
 }
