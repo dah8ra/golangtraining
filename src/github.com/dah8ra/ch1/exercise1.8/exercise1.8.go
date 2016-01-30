@@ -9,8 +9,6 @@ import (
 	"strings"
 )
 
-
-
 func main() {
 	httpStr := "http://"
 	for _, url := range os.Args[1:] {
