@@ -1,0 +1,3 @@
+CURRENT_DIR=/workspace/go/gotraining/src/github.com/dah8ra/ch1
+go build -o ./lissajous/lissajous ./lissajous/lissajous.go 
+./lissajous/lissajous > ./lissajous/out.gif
