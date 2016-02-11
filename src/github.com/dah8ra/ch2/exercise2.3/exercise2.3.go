@@ -18,16 +18,17 @@ func init() {
 
 func main() {
 	start1 := time.Now()
-	popcount(10)
+	fmt.Printf("Result        : %d\n", popcount(10))
 	//pcSec := time.Since(start1).Seconds()
 	pcSec := time.Since(start1).Nanoseconds()
 	start2 := time.Now()
-	popcountByLoop(10)
+	fmt.Printf("Result by loop: %d\n", popcountByLoop(10))
 	//pcByLoopSec := time.Since(start2).Seconds()
 	pcByLoopSec := time.Since(start2).Nanoseconds()
 	elapsed := pcSec - pcByLoopSec
 	//fmt.Printf(strconv.FormatFloat(elapsed, 'G', 4, 64))
-	fmt.Printf("%dsec elapsed.", elapsed)
+	fmt.Println()
+	fmt.Printf("%dnano sec elapsed.", elapsed)
 }
 
 func popcount(x uint64) int {
@@ -43,8 +44,9 @@ func popcount(x uint64) int {
 
 func popcountByLoop(x uint64) int {
 	var pc int
-	for i:=0 ; i<8 ; i++ {
-		pc += int(pc1[byte(x>>(2*8))])
+	var i uint
+	for i=0 ; i<8 ; i++ {
+		pc += int(pc1[byte(x>>(i*8))])
 	}
 	return pc
 }
