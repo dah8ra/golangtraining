@@ -11,6 +11,8 @@ import (
     "io"
     "math"
     "math/rand"
+    "strconv"
+    "strings"
  )
 
 var mu sync.Mutex
@@ -24,7 +26,9 @@ const (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		lissajous(w)
+		query := r.URL.RawQuery
+		split := strings.Split(query, "=")
+		lissajous(w, split[1])
 	})
 	http.HandleFunc("/count", counter)
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
@@ -51,9 +55,9 @@ func counter(w http.ResponseWriter, r *http.Request) {
 	mu.Unlock()	
 }
 
-func lissajous(out io.Writer) {
+func lissajous(out io.Writer, cyclesStr string) {
+	cycles, _ := strconv.ParseFloat(cyclesStr, 64)
 	const (
-		cycles = 5
 		res = 0.001
 		size = 100
 		nframes = 64
