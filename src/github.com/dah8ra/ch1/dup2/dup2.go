@@ -4,9 +4,13 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
-func main(){
+func main() {
+	s := "abc=10"
+	d := strings.Split(s, "=")
+	fmt.Println(d[1])
 	counts := make(map[string]int)
 	files := os.Args[1:]
 	if len(files) == 0 {
@@ -29,7 +33,7 @@ func main(){
 	}
 }
 
-func countLines(f *os.File, counts map[string]int){
+func countLines(f *os.File, counts map[string]int) {
 	input := bufio.NewScanner(f)
 	for input.Scan() {
 		counts[input.Text()]++

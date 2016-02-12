@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func main(){
+func main() {
 	files := os.Args[1:]
 	if len(files) == 0 {
 		countLines(os.Stdin)
@@ -22,7 +22,7 @@ func main(){
 			f.Close()
 		}
 	}
-	
+
 }
 
 func countLines(f *os.File) {

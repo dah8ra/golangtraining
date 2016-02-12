@@ -26,5 +26,5 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func counter(w http.ResponseWriter, r *http.Request) {
 	mu.Lock()
 	fmt.Fprintf(w, "Count %d\n", count)
-	mu.Unlock()	
+	mu.Unlock()
 }

@@ -1,11 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"io"
 	"net/http"
 	"os"
-	"bufio"
 )
 
 func main() {
@@ -15,7 +15,7 @@ func main() {
 			fmt.Fprintf(os.Stderr, "fetch: %v\n", err)
 			os.Exit(1)
 		}
-		w := bufio.NewWriter(os.Stdout);
+		w := bufio.NewWriter(os.Stdout)
 		_, err = io.Copy(w, resp.Body)
 		resp.Body.Close()
 		if err != nil {

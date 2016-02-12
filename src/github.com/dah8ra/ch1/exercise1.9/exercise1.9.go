@@ -28,5 +28,6 @@ func main() {
 			os.Exit(1)
 		}
 		fmt.Printf("ResponseCode: %s\n============================\n%s", status, b)
+
 	}
 }

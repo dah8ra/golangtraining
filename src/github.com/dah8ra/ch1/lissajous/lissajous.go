@@ -1,14 +1,14 @@
-package main 
+package main
 
 import (
-    "image"
-    "image/color"
-    "image/gif"
-    "io"
-    "math"
-    "math/rand"
-    "os"
-    "time"
+	"image"
+	"image/color"
+	"image/gif"
+	"io"
+	"math"
+	"math/rand"
+	"os"
+	"time"
 )
 
 var palette = []color.Color{color.White, color.Black}
@@ -20,16 +20,16 @@ const (
 
 func main() {
 	rand.Seed(time.Now().UTC().UnixNano())
-	lissajous(os.Stdout)	
+	lissajous(os.Stdout)
 }
 
 func lissajous(out io.Writer) {
 	const (
-		cycles = 5
-		res = 0.001
-		size = 100
+		cycles  = 5
+		res     = 0.001
+		size    = 100
 		nframes = 64
-		delay = 8
+		delay   = 8
 	)
 	freq := rand.Float64() * 3.0
 	anim := gif.GIF{LoopCount: nframes}
@@ -44,8 +44,7 @@ func lissajous(out io.Writer) {
 		}
 		phase += 0.1
 		anim.Delay = append(anim.Delay, delay)
-		anim.Image = append(anim.Image, img)		
+		anim.Image = append(anim.Image, img)
 	}
 	gif.EncodeAll(out, &anim)
 }
-

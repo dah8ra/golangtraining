@@ -2,18 +2,18 @@ package main
 
 import (
 	"fmt"
+	"image"
+	"image/color"
+	"image/gif"
+	"io"
 	"log"
+	"math"
+	"math/rand"
 	"net/http"
+	"strconv"
+	"strings"
 	"sync"
-    "image"
-    "image/color"
-    "image/gif"
-    "io"
-    "math"
-    "math/rand"
-    "strconv"
-    "strings"
- )
+)
 
 var mu sync.Mutex
 var count int
@@ -41,7 +41,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 	fmt.Fprintf(w, "Host = %q\n", r.Host)
 	fmt.Fprintf(w, "RemoteAddr = %q\n", r.RemoteAddr)
-	if err := r.ParseForm() ; err != nil {
+	if err := r.ParseForm(); err != nil {
 		log.Print(err)
 	}
 	for k, v := range r.Form {
@@ -52,16 +52,16 @@ func handler(w http.ResponseWriter, r *http.Request) {
 func counter(w http.ResponseWriter, r *http.Request) {
 	mu.Lock()
 	fmt.Fprintf(w, "Count %d\n", count)
-	mu.Unlock()	
+	mu.Unlock()
 }
 
 func lissajous(out io.Writer, cyclesStr string) {
 	cycles, _ := strconv.ParseFloat(cyclesStr, 64)
 	const (
-		res = 0.001
-		size = 100
+		res     = 0.001
+		size    = 100
 		nframes = 64
-		delay = 8
+		delay   = 8
 	)
 	freq := rand.Float64() * 3.0
 	anim := gif.GIF{LoopCount: nframes}
@@ -76,7 +76,7 @@ func lissajous(out io.Writer, cyclesStr string) {
 		}
 		phase += 0.1
 		anim.Delay = append(anim.Delay, delay)
-		anim.Image = append(anim.Image, img)		
+		anim.Image = append(anim.Image, img)
 	}
 	gif.EncodeAll(out, &anim)
 }
