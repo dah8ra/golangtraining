@@ -23,16 +23,16 @@ func main() {
 }
 
 func popcount(x uint64) int {
-	y := (x&(x-1)|x&(-x))
-	fmt.Println(x&(x-1))
-	fmt.Println(x&(-x))
-	
+	y := (x&(x-1) | x&(-x))
+	fmt.Println(x & (x - 1))
+	fmt.Println(x & (-x))
+
 	return int(pc[byte(y>>(0*8))] +
-	pc[byte(y>>(1*8))] +
-	pc[byte(y>>(2*8))] +
-	pc[byte(y>>(3*8))] +
-	pc[byte(y>>(4*8))] +
-	pc[byte(y>>(5*8))] +
-	pc[byte(y>>(6*8))] +
-	pc[byte(y>>(7*8))])
+		pc[byte(y>>(1*8))] +
+		pc[byte(y>>(2*8))] +
+		pc[byte(y>>(3*8))] +
+		pc[byte(y>>(4*8))] +
+		pc[byte(y>>(5*8))] +
+		pc[byte(y>>(6*8))] +
+		pc[byte(y>>(7*8))])
 }

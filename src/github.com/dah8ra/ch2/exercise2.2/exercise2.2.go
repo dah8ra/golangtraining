@@ -1,10 +1,11 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"os"
 	"strconv"
-	"bufio"
+
 	"github.com/dah8ra/ch2/tempconv"
 )
 
@@ -19,7 +20,7 @@ func main() {
 			fmt.Fprintf(os.Stderr, "cf: %v\n", err)
 			os.Exit(1)
 		}
-	}	
+	}
 	in := bufio.NewScanner(os.Stdin)
 	for in.Scan() {
 		inStr := in.Text()
@@ -28,5 +29,4 @@ func main() {
 		c := tempconv.Celsius(t)
 		fmt.Printf("%s = %s, %s = %s\n", f, tempconv.FToC(f), c, tempconv.CToF(c))
 	}
-}		
-	
+}
