@@ -17,18 +17,18 @@ import (
 )
 
 func main() {
-	letterCounts := make(map[rune]int)    // counts of Unicode characters
+	letterCounts := make(map[rune]int) // counts of Unicode characters
 	markCounts := make(map[rune]int)
 	numberCounts := make(map[rune]int)
 	digitCounts := make(map[rune]int)
 	graphicCounts := make(map[rune]int)
 	spaceCounts := make(map[rune]int)
-	var utflen [utf8.UTFMax + 1]int       // count of lengths of UTF-8 encodings
-	invalid := 0                          // count of invalid UTF-8 characters
+	var utflen [utf8.UTFMax + 1]int // count of lengths of UTF-8 encodings
+	invalid := 0                    // count of invalid UTF-8 characters
 
 	in := bufio.NewReader(os.Stdin)
 	for {
-		r, n, err := in.ReadRune() // returns rune, nbytes, error		
+		r, n, err := in.ReadRune() // returns rune, nbytes, error
 		if err == io.EOF {
 			break
 		}
@@ -42,13 +42,13 @@ func main() {
 		}
 		if unicode.IsLetter(r) {
 			letterCounts[r]++
-		} else if unicode.IsMark(r){
+		} else if unicode.IsMark(r) {
 			markCounts[r]++
-		} else if unicode.IsNumber(r){
+		} else if unicode.IsNumber(r) {
 			numberCounts[r]++
 		} else if unicode.IsDigit(r) {
 			digitCounts[r]++
-		} else if unicode.IsGraphic(r){
+		} else if unicode.IsGraphic(r) {
 			graphicCounts[r]++
 		} else if unicode.IsSpace(r) {
 			spaceCounts[r]++
