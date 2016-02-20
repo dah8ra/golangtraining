@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-	var src = []string{"a", "a", "b", "c","c","c","d","e"}
+	var src = []string{"a", "a", "b", "c", "c", "c", "d", "e"}
 	var temp string
 	result := []string{}
 	for _, v := range src {
