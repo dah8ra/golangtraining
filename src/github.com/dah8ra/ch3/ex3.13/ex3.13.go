@@ -1,20 +1,18 @@
 package main
 
-import (
-	"fmt"
-)
+import "fmt"
 
 type ByteSize float64
 
 const (
 	KB ByteSize = 1000
-	MB = KB * KB
-	GB = MB * KB
-	TB = GB * KB
-	PB = TB * KB
-	EB = PB * KB
-	ZB = EB * KB
-	YB = ZB * KB
+	MB          = KB * KB
+	GB          = MB * KB
+	TB          = GB * KB
+	PB          = TB * KB
+	EB          = PB * KB
+	ZB          = EB * KB
+	YB          = ZB * KB
 )
 
 func main() {
