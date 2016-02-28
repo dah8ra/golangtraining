@@ -26,6 +26,9 @@ func main() {
 			bx, by := corner(i, j)
 			cx, cy := corner(i, j+1)
 			dx, dy := corner(i+1, j+1)
+			if ax == -1 || bx == -1 || cx == -1 || dx == -1 {
+				continue
+			}
 			fmt.Printf("<polygon points='%g,%g %g,%g %g,%g %g,%g'/>\n",
 				ax, ay, bx, by, cx, cy, dx, dy)
 		}
@@ -40,15 +43,21 @@ func corner(i, j int) (float64, float64) {
 
 	// Compute surface height z.
 
+	//z := fx(x, y)
 	z, ok := f(x, y)
 	if !ok {
-		return 0, 0
+		return -1, -1
 	}
 
 	// Project (x,y,z) isometrically onto 2-D SVG canvas (sx,sy).
 	sx := width/2 + (x-y)*cos30*xyscale
 	sy := height/2 + (x+y)*sin30*xyscale - z*zscale
 	return sx, sy
+}
+
+func fx(x, y float64) float64 {
+	r := math.Hypot(x, y) // distance from (0,0)
+	return math.Sin(r) / r
 }
 
 func f(x, y float64) (value float64, ok bool) {
