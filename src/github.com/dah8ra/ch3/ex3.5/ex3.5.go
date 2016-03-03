@@ -1,10 +1,3 @@
-// Copyright © 2016 Alan A. A. Donovan & Brian W. Kernighan.
-// License: https://creativecommons.org/licenses/by-nc-sa/4.0/
-
-// See page 61.
-//!+
-
-// Mandelbrot emits a PNG image of the Mandelbrot fractal.
 package main
 
 import (
@@ -13,19 +6,6 @@ import (
 	"image/png"
 	"math/cmplx"
 	"os"
-)
-
-var red color.Color = color.RGBA{255, 128, 128, 128}
-var green color.Color = color.RGBA{128, 255, 128, 128}
-var blue color.Color = color.RGBA{128, 128, 255, 128}
-var palette = []color.Color{color.Black, red, green, blue, color.White}
-
-const (
-	blackIndex = 4
-	redIndex   = 0
-	greenIndex = 2
-	blueIndex  = 1
-	whiteIndex = 3
 )
 
 func main() {
@@ -62,27 +42,6 @@ func mandelbrot(z complex128) color.Color {
 	return color.Black
 }
 
-func getColor(n uint8) color.Color {
-	temp := n % 5
-	switch temp {
-	case blackIndex:
-		return palette[blackIndex]
-	case redIndex:
-		return palette[redIndex]
-	case greenIndex:
-		return palette[greenIndex]
-	case blueIndex:
-		return palette[blueIndex]
-	case whiteIndex:
-		return palette[whiteIndex]
-	}
-	return palette[redIndex]
-}
-
-//!-
-
-// Some other interesting functions:
-
 func acos(z complex128) color.Color {
 	v := cmplx.Acos(z)
 	blue := uint8(real(v)*128) + 127
@@ -97,11 +56,6 @@ func sqrt(z complex128) color.Color {
 	return color.YCbCr{128, blue, red}
 }
 
-// f(x) = x^4 - 1
-//
-// z' = z - f(z)/f'(z)
-//    = z - (z^4 - 1) / (4 * z^3)
-//    = z - (z - 1/z^3) / 4
 func newton(z complex128) color.Color {
 	const iterations = 37
 	const contrast = 7
