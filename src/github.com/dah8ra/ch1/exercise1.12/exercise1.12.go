@@ -26,6 +26,9 @@ const (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		lissajous(w, "5")
+	})
+	http.HandleFunc("/parameter", func(w http.ResponseWriter, r *http.Request) {
 		query := r.URL.RawQuery
 		split := strings.Split(query, "=")
 		lissajous(w, split[1])
