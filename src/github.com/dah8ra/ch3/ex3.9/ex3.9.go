@@ -25,15 +25,14 @@ const (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		lissajous(w, "1", "1", "1")
+		fractal(w, "0", "0", "1")
 	})
-	http.HandleFunc("/parameter", func(w http.ResponseWriter, r *http.Request) {
+	http.HandleFunc("/fractal", func(w http.ResponseWriter, r *http.Request) {
 		query := r.URL.RawQuery
 		splitEqual := strings.Split(query, "=")
 		splitComma := strings.Split(splitEqual[1], ",")
-		lissajous(w, splitComma[0], splitComma[1], splitComma[2])
+		fractal(w, splitComma[0], splitComma[1], splitComma[2])
 	})
-	http.HandleFunc("/count", counter)
 	log.Fatal(http.ListenAndServe("localhost:8000", nil))
 }
 
@@ -52,13 +51,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func counter(w http.ResponseWriter, r *http.Request) {
-	mu.Lock()
-	fmt.Fprintf(w, "Count %d\n", count)
-	mu.Unlock()
-}
-
-func lissajous(out io.Writer, xstr string, ystr string, magstr string) {
+func fractal(out io.Writer, xstr string, ystr string, magstr string) {
 	xxfloat, _ := strconv.ParseFloat(xstr, 64)
 	yyfloat, _ := strconv.ParseFloat(ystr, 64)
 	magfloat, _ := strconv.ParseFloat(magstr, 64)
@@ -92,22 +85,6 @@ func lissajous(out io.Writer, xstr string, ystr string, magstr string) {
 	}
 	png.Encode(out, outimg)
 	fmt.Printf("Done!!! (x,y)=(%d,%d), magnification: %d", xx, yy, mag)
-}
-
-func supersampling(width int, height int, bsize int, img image.Image) image.Image {
-	rect := image.Rect(0, 0, width*bsize, height*bsize)
-	outimg := image.NewRGBA(rect)
-	for x := 0; x < width; x++ {
-		for y := 0; y < height; y++ {
-			c := img.At(x, y)
-			for i := 0; i < bsize; i++ {
-				for j := 0; j < bsize; j++ {
-					outimg.Set(x*bsize+i, y*bsize+j, c)
-				}
-			}
-		}
-	}
-	return outimg
 }
 
 func newton(z complex128) color.Color {
