@@ -7,8 +7,9 @@ import (
 	"net/http"
 )
 
-func CreateIssues(jsonStr []byte) (*Issue, error) {
-	req, _ := http.NewRequest("POST", Url, bytes.NewReader(jsonStr))
+func UpdateIssues(url string, jsonStr []byte) (*Issue, error) {
+	//	req, _ := http.NewRequest("PATCH", url, bytes.NewBufferString(jsonStr))
+	req, _ := http.NewRequest("PATCH", url, bytes.NewReader(jsonStr))
 	req.Header.Set("Authorization", token)
 	req.Header.Set("Content-Type", "application/json")
 	client := new(http.Client)
