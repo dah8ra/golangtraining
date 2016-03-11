@@ -10,7 +10,7 @@ import (
 )
 
 const baseurl = "http://omdbapi.com/?"
-const basefilename = "/workspace/go/golangtraining/src/github.com/dah8ra/ch4/ex4.13/"
+const basefilename = "../ex4.13/"
 
 var word = flag.String("w", "frozen", "Search word")
 
