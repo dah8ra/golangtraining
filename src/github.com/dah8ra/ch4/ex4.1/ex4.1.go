@@ -12,7 +12,7 @@ func main() {
 	for i, v1 := range c1 {
 		v2 := c2[i]
 		if v1 != v2 {
-			var v byte = v1 & v2
+			v := v1 ^ v2
 			fmt.Printf("%b %b -> %b\n", v1, v2, v)
 			count += PopCountByClearing(v)
 		}
