@@ -46,50 +46,6 @@ func main() {
 
 }
 
-/*
-func main() {
-	flag.Parse()
-	if *read {
-		url := createIssueUrl(*num)
-		result, _ := github.GetSingleIssue(url)
-		fmt.Printf("%s\n", result.Title)
-	} else if *create {
-		input := createJson(*ticketTitle)
-		github.CreateIssues(input)
-	} else if *update {
-		url := createIssueUrl(*num)
-		temp := createJsonFormat(*ticketTitle)
-		input := createJson(temp)
-		result, _ := github.UpdateIssues(url, *ticketTitle)
-		if result == nil {
-			fmt.Println("Result is nil")
-		} else {
-			fmt.Printf("%s\n", result.Title)
-		}
-	} else if *done {
-		url := createIssueUrl(*num)
-		fmt.Printf("%s\n", *ticketTitle)
-		input := createJson(createJsonFormat(*ticketTitle))
-		github.UpdateIssues(url, input)
-	}
-}
-*/
-
-func createJsonFormat(str string) string {
-	return "{" + str + "}"
-}
-
-func createJson(str string) []byte {
-	//	input, err := json.Marshal(str)
-	input, err := json.MarshalIndent(str, "", "	")
-	fmt.Println(input)
-	if err != nil {
-		fmt.Println(err.Error())
-		return nil
-	}
-	return input
-}
-
 func createIssueUrl(num int) string {
 	return github.IssueUrl + strconv.Itoa(num)
 }
