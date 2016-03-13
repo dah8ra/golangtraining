@@ -16,27 +16,26 @@ func main() {
 		fmt.Fprintf(os.Stderr, "findlinks1: %v\n", err)
 		os.Exit(1)
 	}
-	//	for _, link := range visit(nil, doc) {
-	for _, link := range visits(nil, doc, nil, 0) {
+	for _, link := range visit(nil, doc, nil, 0) {
 		fmt.Println(link)
 	}
 }
 
-func visits(links []string, n *html.Node, a []html.Attribute, i int) []string {
+func visit(links []string, n *html.Node, a []html.Attribute, i int) []string {
 	if n == nil {
 		return links
 	}
 	if n.NextSibling != nil {
-		links = visits(links, n.NextSibling, n.NextSibling.Attr, 0)
+		links = visit(links, n.NextSibling, n.NextSibling.Attr, 0)
 	}
 	if n.Type == html.ElementNode && n.Data == "a" {
 		if n.Attr[i].Key != "href" {
-			links = visits(links, n, n.Attr, i+1)
+			links = visit(links, n, n.Attr, i+1)
 		} else {
 			links = append(links, n.Attr[i].Val)
 		}
 	}
-	links = visits(links, n.FirstChild, n.Attr, 0)
+	links = visit(links, n.FirstChild, n.Attr, 0)
 
 	return links
 }
