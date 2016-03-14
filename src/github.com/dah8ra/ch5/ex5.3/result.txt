@@ -1,0 +1,5 @@
+>> read file: test.html
+DETECTED "script", so skip it.
+DETECTED "div"
+DETECTED "style", so skip it.
+DETECTED "div"

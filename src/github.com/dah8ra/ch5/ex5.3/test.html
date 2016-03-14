@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <title>This is an example for the &lt;base&gt; element</title>
+      <base href="http://www.example.com/news/index.html">
+   </head>
+   <body itemscope itemtype="http://schema.org/Blog">
+      <script type="text/javascript">
+         <!--
+            x = 5;
+            y = 3;
+            document.write("Answer is ");
+            document.write(x + y);
+            // -->
+      </script>
+      <div style="color:red">
+         文字の色をスタイルシートで指定します。
+      </div>
+      <header>
+         <h1>Wake up sheeple!</h1>
+         <p><a href="news.html">News</a>
+            <a href="blog.html">Blog</a>
+            <a href="forums.html">Forums</a>
+         </p>
+         <p>Last Modified: <span itemprop="dateModified">2009-04-01</span></p>
+         <nav>
+            <h1>Navigation</h1>
+            <ul>
+               <li><a href="articles.html">Index of all articles</a></li>
+               <li><a href="today.html">Things sheeple need to wake up for today</a></li>
+               <li><a href="successes.html">Sheeple we have managed to wake</a></li>
+            </ul>
+         </nav>
+      </header>
+      <main>
+         <article itemprop="blogPosts" itemscope itemtype="http://schema.org/BlogPosting">
+            <header>
+               <h1 itemprop="headline">My Day at the Beach</h1>
+            </header>
+            <main itemprop="articleBody">
+               <p>Today I went to the beach and had a lot of fun.</p>
+            </main>
+            <footer>
+               <p>Posted <time itemprop="datePublished" datetime="2009-10-10">Thursday</time>.</p>
+            </footer>
+         </article>
+      </main>
+      <div>
+         <section id="public">
+            <h1>Public demonstrations</h1>
+            <p>...more...</p>
+         </section>
+         <section id="destroy">
+            <h1>Demolitions</h1>
+            <p>...more...</p>
+         </section>
+      </div>
+      <footer>
+         <p>Copyright ©
+            <span itemprop="copyrightYear">2010</span>
+            <span itemprop="copyrightHolder">The Example Company</span>
+         </p>
+         <p><a href="about.html">About</a> -
+            <a href="policy.html">Privacy Policy</a> -
+            <a href="contact.html">Contact Us</a>
+         </p>
+      </footer>
+   </body>
+</html>
