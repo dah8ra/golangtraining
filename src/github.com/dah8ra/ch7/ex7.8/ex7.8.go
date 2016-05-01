@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"os"
 	"sort"
 	"text/tabwriter"
@@ -43,11 +44,19 @@ func printTracks(tracks []*Track) {
 }
 
 func main() {
-	queue := [...]string{"Artist", "Album"}
+	queue := [...]string{"Title", "Artist", "Album", "Year", "Length"}
 	// for loop shows clicked history.
 	// e.g. First loop is first click.
-	for _, clicked := range queue {
-		fmt.Println("\nClicked " + clicked + ":")
+	count := 10000 // loop count
+	showflag := false
+	start := time.Now()
+	for i := 0; i < count; i++ {
+		f64 := float64(i)
+		modulo := math.Mod(f64, 5)
+		clicked := queue[int(modulo)]
+		if showflag {
+			fmt.Println("\nClicked " + clicked + ":")
+		}
 		sort.Sort(historySort{clicked, tracks, func(x, y *Track) bool {
 			if clicked == "Title" {
 				if x.Title != y.Title {
@@ -72,8 +81,54 @@ func main() {
 			}
 			return false
 		}})
-		printTracks(tracks)
+		if showflag {
+			printTracks(tracks)
+		}
 	}
+	end := time.Now()
+	history :=  (end.Sub(start)).Seconds()
+	fmt.Printf("historySort -> %f seconds\n", history)
+	
+	startStable := time.Now()
+	for i := 0; i < count; i++ {
+		f64 := float64(i)
+		modulo := math.Mod(f64, 5)
+		clicked := queue[int(modulo)]
+		if showflag {
+			fmt.Println("\nClicked " + clicked + ":")
+		}
+		sort.Stable(historySort{clicked, tracks, func(x, y *Track) bool {
+			if clicked == "Title" {
+				if x.Title != y.Title {
+					return x.Title < y.Title
+				}
+			} else if clicked == "Artist" {
+				if x.Artist != y.Artist {
+					return x.Artist < y.Artist
+				}
+			} else if clicked == "Album" {
+				if x.Album != y.Album {
+					return x.Album < y.Album
+				}
+			} else if clicked == "Year" {
+				if x.Year != y.Year {
+					return x.Year < y.Year
+				}
+			} else if clicked == "Length" {
+				if x.Length != y.Length {
+					return x.Length < y.Length
+				}
+			}
+			return false
+		}})
+		if showflag {
+			printTracks(tracks)
+		}
+	}
+	endStable := time.Now()
+	stable := (endStable.Sub(startStable)).Seconds()
+	fmt.Printf("stableSort -> %f seconds\n", stable)
+	fmt.Printf("diff -> %f seconds\n",  history - stable)
 }
 
 type historySort struct {
