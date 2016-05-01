@@ -44,6 +44,8 @@ func printTracks(tracks []*Track) {
 
 func main() {
 	queue := [...]string{"Artist", "Album"}
+	// for loop shows clicked history.
+	// e.g. First loop is first click.
 	for _, clicked := range queue {
 		fmt.Println("\nClicked " + clicked + ":")
 		sort.Sort(historySort{clicked, tracks, func(x, y *Track) bool {
