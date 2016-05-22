@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 
-	"github.com/dah8ra/ch7/eval"
+	"github.com/dah8ra/ch7/eval713"
 )
 
 func main() {
-	expr, _ := eval.Parse("1+2*pow(x,y)-3/4+sin(7)")
+	expr, _ := eval713.Parse("1+2*3-4/8")
 	fmt.Println(expr)
-	env := eval.Env{"x": 1, "y": 2}
-	expr.String(env)
+	env := eval713.Env{"x": 1, "y": 2}
+	expr.String(env)	
 }
