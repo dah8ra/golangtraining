@@ -44,10 +44,10 @@ func add(t *tree, value int) *tree {
 }
 
 func (t *tree) String() {
-	show(t, true, false, -1)
+	show(t, false, -1)
 }
 
-func show(t *tree, hasNext bool, init bool, indent int) {
+func show(t *tree, init bool, indent int) {
 	if t == nil {
 		return
 	}
@@ -61,9 +61,9 @@ func show(t *tree, hasNext bool, init bool, indent int) {
 		fmt.Printf("%s├%d\n", tab, t.value)
 	}
 	if t.left != nil {
-		show(t.left, true, true, indent+1)
+		show(t.left, true, indent+1)
 	}
 	if t.right != nil {
-		show(t.right, false, true, indent+1)
+		show(t.right, true, indent+1)
 	}
 }
