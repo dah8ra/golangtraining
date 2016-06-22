@@ -8,6 +8,11 @@ import (
 	"time"
 )
 
+/*
+Please use following command.
+$ go run ex8.1.go 8010 8020 8030
+*/
+
 var timeZone = map[string]int{
 	"US/Eastern":    -5 * 60 * 60,
 	"Asia/Tokyo":    9 * 60 * 60,
