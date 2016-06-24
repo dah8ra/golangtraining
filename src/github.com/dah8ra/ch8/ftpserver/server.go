@@ -6,6 +6,7 @@ import (
 	"net"
 	"strings"
 	"sync"
+
 	"github.com/dah8ra/ch8/system"
 )
 
@@ -35,19 +36,21 @@ type Ftp struct {
 func init() {
 	CommandMap = make(map[string]func(*Ftp))
 
+	CommandMap["cd"] = (*Ftp).handleCd
+
 	CommandMap["USER"] = (*Ftp).handleUser
 	CommandMap["PASS"] = (*Ftp).handlePass
 	//	CommandMap["STOR"] = (*Ftp).handleStore
 	//	CommandMap["APPE"] = (*Ftp).handleStore
 	//	CommandMap["STAT"] = (*Ftp).handleStat
 	//	CommandMap["SYST"] = (*Ftp).handleSyst
-	//	CommandMap["PWD"] = (*Ftp).handlePwd
+	CommandMap["PWD"] = (*Ftp).handlePwd
 	//	CommandMap["TYPE"] = (*Ftp).handleType
 	//	CommandMap["PASV"] = (*Ftp).handlePassive
 	//	CommandMap["EPSV"] = (*Ftp).handlePassive
 	//	CommandMap["NLST"] = (*Ftp).handleList
 	//	CommandMap["LIST"] = (*Ftp).handleList
-	//	CommandMap["QUIT"] = (*Ftp).handleQuit
+	CommandMap["QUIT"] = (*Ftp).handleQuit
 	//	CommandMap["CWD"] = (*Ftp).handleCwd
 	//	CommandMap["SIZE"] = (*Ftp).handleSize
 	//	CommandMap["RETR"] = (*Ftp).handleRetr
@@ -97,7 +100,7 @@ func (f *Ftp) handleCommands() {
 		cmd, param := parseLine(line)
 		f.cmd = cmd
 		f.param = param
-
+		fmt.Println(cmd)
 		fn := CommandMap[cmd]
 		if fn == nil {
 			f.writeMessage(550, "not allowed")
@@ -118,8 +121,22 @@ func (f *Ftp) handleUser() {
 	f.writeMessage(331, "User name ok, password required")
 }
 
+func (f *Ftp) handlePwd() {
+	f.writeMessage(257, "\""+f.path+"\" is the current directory")
+}
+
 func (f *Ftp) handlePass() {
 
+}
+
+func (f *Ftp) handleCd() {
+
+}
+
+func (f *Ftp) handleQuit() {
+	f.writeMessage(221, "Goodbye")
+	f.conn.Close()
+	//	delete(ConnectionMap, p.cid)
 }
 
 func parseLine(line string) (string, string) {

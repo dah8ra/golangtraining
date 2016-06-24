@@ -63,13 +63,18 @@ func (c *Client) Connect() {
 	c.reader = textproto.NewReader(bufio.NewReader(c.conn))
 	c.writer = textproto.NewWriter(bufio.NewWriter(c.conn))
 
-	c.Quit()
+	c.Pwd()
 
 	c.read(false)
 	c.send("USER bad")
 	c.read(false)
 	c.send("PASS security")
 	c.read(false)
+}
+
+func (c *Client) Pwd() {
+	c.send("PWD")
+	c.read(true)
 }
 
 func (c *Client) Quit() {
