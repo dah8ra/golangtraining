@@ -16,9 +16,9 @@ import (
 var wg sync.WaitGroup
 
 func main() {
-	comm := make(chan struct{}, 20)
+	comm := make(chan struct{}, 30)
 
-	for i := 0; i < 3; i++ {
+	for i := 0; i < 30; i++ {
 		wg.Add(1)
 		name := "test_" + strconv.Itoa(i) + ".gif"
 		fmt.Printf("@@@ %s\n", name)
@@ -35,7 +35,7 @@ func main() {
 func start(comm chan struct{}, writer io.Writer) {
 	defer wg.Done()
 	const (
-		xmin, ymin, xmax, ymax = -2, -2, +2, +2
+		xmin, ymin, xmax, ymax = -4, -4, +4, +4
 		width, height          = 1024, 1024
 	)
 	img := image.NewRGBA(image.Rect(0, 0, width, height))
