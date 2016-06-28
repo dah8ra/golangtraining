@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"os"
 	"strings"
 	"sync"
 	"time"
@@ -12,24 +13,54 @@ import (
 
 var wg sync.WaitGroup
 
+//var m map[int]net.Conn
+
+func main() {
+	//	m = make(map[int]net.Conn)
+	l, err := net.Listen("tcp", "localhost:8000")
+	if err != nil {
+		log.Fatal(err)
+	}
+	for {
+		conn, err := l.Accept()
+		if err != nil {
+			log.Print(err) // e.g., connection aborted
+			continue
+		}
+		go handleConn(conn)
+	}
+}
+
+func closeStdin() {
+	time.Sleep(5 * time.Second)
+	err := os.Stdin.Close()
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
+func handleConn(c net.Conn) {
+	input := bufio.NewScanner(c)
+	for input.Scan() {
+		wg.Add(1)
+		go echo(c, input.Text(), 1*time.Second)
+	}
+	wg.Wait()
+	fmt.Println("Close conn.")
+	shutdownWrite(c)
+	//	c.Close()
+}
+
 func echo(c net.Conn, shout string, delay time.Duration) {
+	defer func() {
+		fmt.Println("Called Done!")
+		wg.Done()
+	}()
 	fmt.Fprintln(c, "\t", strings.ToUpper(shout))
 	time.Sleep(delay)
 	fmt.Fprintln(c, "\t", shout)
 	time.Sleep(delay)
 	fmt.Fprintln(c, "\t", strings.ToLower(shout))
-}
-
-func handleConn(c net.Conn) {
-	defer func() {
-		fmt.Println("Called Done!")
-		wg.Done()
-	}()
-	input := bufio.NewScanner(c)
-	for input.Scan() {
-		go echo(c, input.Text(), 1*time.Second)
-	}
-	//	c.Close()
 }
 
 func shutdownWrite(conn net.Conn) {
@@ -41,33 +72,4 @@ func shutdownWrite(conn net.Conn) {
 		fmt.Println("CLOSE -> *net.UnixConn")
 		i.CloseWrite()
 	}
-}
-
-var m map[int]net.Conn
-
-func main() {
-	m = make(map[int]net.Conn)
-	l, err := net.Listen("tcp", "localhost:8000")
-	if err != nil {
-		log.Fatal(err)
-	}
-	index := 0
-	for {
-		wg.Add(1)
-		index++
-		conn, err := l.Accept()
-		if err != nil {
-			log.Print(err) // e.g., connection aborted
-			continue
-		}
-		go handleConn(conn)
-		m[index] = conn
-	}
-	go func() {
-		wg.Wait()
-		fmt.Println("Finished to wait...")
-		for _, c := range m {
-			shutdownWrite(c)
-		}
-	}()
 }
