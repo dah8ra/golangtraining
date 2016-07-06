@@ -5,11 +5,13 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"time"
 )
 
 type client struct {
-	comm chan string // an outgoing message channel
-	name string
+	message chan string // an outgoing message channel
+	name    string
+	updated chan struct{}
 }
 
 var (
@@ -19,26 +21,25 @@ var (
 )
 
 func broadcaster() {
-	clients := make(map[client]bool) // all connected clients
+	clients := make(map[string]client) // all connected clients
 	for {
 		select {
 		case msg := <-messages:
 			// Broadcast incoming message to all
 			// clients' outgoing message channels.
-			for cli := range clients {
-				cli.comm <- msg
+			for _, cli := range clients {
+				cli.message <- msg
 			}
-
 		case newclient := <-entering:
-			clients[newclient] = true
-			for existing, _ := range clients {
+			clients[newclient.name] = newclient
+			for _, existing := range clients {
 				if newclient.name != existing.name {
-					newclient.comm <- existing.name + " is in the room."
+					newclient.message <- existing.name + " is in the room."
 				}
 			}
 		case cli := <-leaving:
-			delete(clients, cli)
-			close(cli.comm)
+			delete(clients, cli.name)
+			close(cli.message)
 		}
 	}
 }
@@ -46,25 +47,48 @@ func broadcaster() {
 func handleConn(conn net.Conn) {
 	ch := make(chan string) // outgoing client messages
 	who := conn.RemoteAddr().String()
-	c := client{comm: ch, name: who}
+	c := client{message: ch, name: who}
 	go clientWriter(conn, c)
 
 	ch <- "You are " + who
-	messages <- who + " has arrived"
+	c.message <- who + " has arrived"
 	entering <- c
 
 	input := bufio.NewScanner(conn)
+	c.updated = make(chan struct{})
+	go sessionTimer(conn, c)
+
 	for input.Scan() {
 		messages <- who + ": " + input.Text()
+		c.updated <- struct{}{}
 	}
 
-	leaving <- c
-	messages <- who + " has left"
-	conn.Close()
+}
+
+func sessionTimer(conn net.Conn, c client) {
+	flag := false
+	for {
+		select {
+		// Decide timeout for a client.
+		case <-time.After(10 * time.Second):
+			fmt.Printf("close conn -> %s\n", c.name)
+			leaving <- c
+			messages <- c.name + " has left"
+			conn.Close()
+			flag = true
+			break
+		case <-c.updated:
+			fmt.Println("Updated")
+			break
+		}
+		if flag {
+			break
+		}
+	}
 }
 
 func clientWriter(conn net.Conn, c client) {
-	for msg := range c.comm {
+	for msg := range c.message {
 		fmt.Fprintln(conn, msg) // NOTE: ignoring network errors
 	}
 }
