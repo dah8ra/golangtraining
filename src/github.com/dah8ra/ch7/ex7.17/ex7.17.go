@@ -10,7 +10,7 @@ import (
 )
 
 // Sample command
-// go run ex7.17.go css.xml id
+// go run ex7.17.go test.xml id
 func main() {
 	dec := xml.NewDecoder(getFileContents())
 	//	dec := xml.NewDecoder(os.Stdin)
