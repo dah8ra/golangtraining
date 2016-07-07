@@ -92,7 +92,7 @@ func (c calc) Calc(env Env) float64 {
 	switch c.op {
 	case '+':
 		temp := c.x.Calc(env) + c.y.Calc(env)
-		fmt.Printf("Op: %v\tMin: %f\tVal: %f\r\n", c.op, min, temp)
+		fmt.Printf("Op: %s\tMin: %f\tVal: %f\r\n", "+", min, temp)
 		if temp < min {
 			min = temp
 
@@ -101,7 +101,7 @@ func (c calc) Calc(env Env) float64 {
 		return min
 	case '-':
 		temp := c.x.Calc(env) - c.y.Calc(env)
-		fmt.Printf("Op: %v\tMin: %f\tVal: %f\r\n", c.op, min, temp)
+		fmt.Printf("Op: %s\tMin: %f\tVal: %f\r\n", "-", min, temp)
 		if temp < min {
 			min = temp
 		}
@@ -109,7 +109,7 @@ func (c calc) Calc(env Env) float64 {
 		return min
 	case '*':
 		temp := c.x.Calc(env) * c.y.Calc(env)
-		fmt.Printf("Op: %v\tMin: %f\tVal: %f\r\n", c.op, min, temp)
+		fmt.Printf("Op: %s\tMin: %f\tVal: %f\r\n", "*", min, temp)
 		if temp < min {
 			min = temp
 		}
@@ -117,7 +117,7 @@ func (c calc) Calc(env Env) float64 {
 		return min
 	case '/':
 		temp := c.x.Calc(env) / c.y.Calc(env)
-		fmt.Printf("Op: %v\tMin: %f\tVal: %f\r\n", c.op, min, temp)
+		fmt.Printf("Op: %s\tMin: %f\tVal: %f\r\n", "/", min, temp)
 		if temp < min {
 			min = temp
 		}
