@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+// Sample command
+// go run ex7.17.go css.xml id
 func main() {
 	dec := xml.NewDecoder(getFileContents())
 	//	dec := xml.NewDecoder(os.Stdin)
