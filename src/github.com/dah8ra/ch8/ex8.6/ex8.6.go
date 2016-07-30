@@ -9,7 +9,7 @@ import (
 	"github.com/dah8ra/ch8/links"
 )
 
-const auth = "p000494274:londoneye7675"
+const auth = "username:password"
 
 func crawl(url string) []string {
 	fmt.Println(url)
