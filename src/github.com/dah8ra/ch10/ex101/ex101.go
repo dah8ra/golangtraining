@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"image"
 	"image/jpeg"
-	"image/png"
+	_ "image/png"
 	"io"
 	"os"
 )
@@ -31,12 +31,5 @@ func convert(in io.Reader, out io.Writer, s string) error {
 		return err
 	}
 	fmt.Fprintln(os.Stderr, "Input format =", kind)
-	if s == "jpeg" {
-		return jpeg.Encode(out, img, &jpeg.Options{Quality: 95})
-	} else if s == "png" {
-		return png.Encode(out, img)
-	} else if s == "bmp" {
-
-	}
-	return nil
+	return jpeg.Encode(out, img, &jpeg.Options{Quality: 95})
 }
