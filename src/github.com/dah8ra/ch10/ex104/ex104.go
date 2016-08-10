@@ -16,7 +16,7 @@ type imports struct {
 	Imports []string `json:"Imports"`
 }
 
-var b = flag.String("p", "ex104", "Specified package to show the dependency.")
+var b = flag.String("p", "ex104", "Please specify a package to show the dependency.")
 
 /////////////////////////////////////////////////////
 // Sample command
